@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+    </style>
+    <!-- http://stackoverflow.com/questions/2105327/should-jquery-code-go-in-header-or-footer
+        *** if tweets load slowly then put this on bottom ***
+    -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/Chart.js"></script>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChartHours);
+      //google.setOnLoadCallback(drawChartDay);
+
+
+      /*
+
+
+      db.make_austintweets_sentiment_collection.find({ $and: [ { "sentiment_probability.label": {$ne:"neg"} }, {  "sentiment_probability.label": {$ne:"pos"} }, { "sentiment_probability.label": {$ne:"neutral"} } ] }).count()
+
+      
+      */
+
+      function drawChartHours() {
+        $.post(
+          "http://localhost:3000/gettweets",
+          { name: "Zara" },
+          function(data) {
+            console.log('got yer tweets');
+
+            var tweets = JSON.parse(data);
+            tweets = tweets.result;
+
+            alert('tweets: ' + tweets.length);
+
+            var timeTable = [
+              ['Time', 'Positive', 'Negative', 'Neutral'],
+              ['12:00',  0, 0, 0],
+              ['1:00',  0, 0, 0],
+              ['2:00',  0, 0, 0],
+              ['3:00',  0, 0, 0],
+              ['4:00',  0, 0, 0],
+              ['5:00',  0, 0, 0],
+              ['6:00',  0, 0, 0],
+              ['7:00',  0, 0, 0],
+              ['8:00',  0, 0, 0],
+              ['9:00',  0, 0, 0],
+              ['10:00',  0, 0, 0],
+              ['11:00',  0, 0, 0],
+              ['12:00',  0, 0, 0],
+              ['1:00',  0, 0, 0],
+              ['2:00',  0, 0, 0],
+              ['3:00',  0, 0, 0],
+              ['3:00',  0, 0, 0],
+              ['4:00',  0, 0, 0],
+              ['5:00',  0, 0, 0],
+              ['6:00',  0, 0, 0],
+              ['7:00',  0, 0, 0],
+              ['8:00',  0, 0, 0],
+              ['9:00',  0, 0, 0],
+              ['10:00', 0, 0, 0],
+              ['11:00', 0, 0, 0]
+            ];
+
+            console.log('*** about to populate tweetsData');
+
+            tweets.forEach(function(tweet) {
+              var redMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+              var blueMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+              var yellowMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+
+              var sentiment;
+              if(tweet.sentiment_label == 'neg') {
+                sentiment = redMarkerIcon;
+              } else if (tweet.sentiment_label == 'pos') {
+                sentiment = blueMarkerIcon;
+              } else {
+                sentiment = yellowMarkerIcon;
+              }
+
+              var lat = tweet.geo.coordinates[0];
+              var lng = tweet.geo.coordinates[1];
+
+              var time = tweet.created_at.substring(tweet.created_at.indexOf(':') - 2, tweet.created_at.indexOf(':'));
+
+              fillTimeTable(tweet, time, timeTable);
+            });
+
+            var tweetsData = google.visualization.arrayToDataTable(timeTable);
+
+            console.log('*** done populating tweetsData');
+
+            /*
+            var tweetsDataJSON = JSON.stringify(tweetsData);
+            console.log('tweetsDataJSON: ' + tweetsDataJSON);
+            */
+
+            var options = {
+              title: 'Time',
+              hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+              vAxis: {minValue: 0}
+            };
+
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div_hours'));
+            chart.draw(tweetsData, options);
+          }
+        );
+      }
+
+      function fillTimeTable(tweet, time, timeTable) {
+        //console.log('time: ' + time);
+        var x = parseInt(time, 10);
+
+        //console.log('x: ' + x);
+
+        if (tweet.sentiment_label == 'pos') {
+          timeTable[x + 1][1] += 1;
+        } else if (tweet.sentiment_label == 'neg') {
+          timeTable[x + 1][2] += 1;
+        } else if (tweet.sentiment_label == 'neutral') {
+          timeTable[x + 1][3] += 1;
+        }
+      }
+
+      function drawChartDay() {
+        console.log('in drawChartDay');
+
+        $.post(
+          "http://localhost:3000/gettweets",
+          { name: "Zara" },
+          function(data) {
+
+            //console.log('data: ' + data);
+            console.log('got yer tweets');
+
+            var tweets = JSON.parse(data);
+            tweets = tweets.result;
+
+            console.log('*** tweets: ' + tweets.length);
+
+            var dayTable = [
+              ['Time', 'Positive', 'Negative', 'Neutral'],
+              ['Monday',  0, 0, 0],
+              ['Tuesday',  0, 0, 0],
+              ['Wednesday',  0, 0, 0],
+              ['Thursday',  0, 0, 0],
+              ['Friday',  0, 0, 0],
+              ['Saturday',  0, 0, 0],
+              ['Sunday',  0, 0, 0]
+            ];
+
+            console.log('*** about to populate tweetsData');
+
+            tweets.forEach(function(tweet) {
+              var redMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+              var blueMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+              var yellowMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+
+              var sentiment;
+              if(tweet.sentiment_label == 'neg') {
+                sentiment = redMarkerIcon;
+              } else if (tweet.sentiment_label == 'pos') {
+                sentiment = blueMarkerIcon;
+              } else {
+                sentiment = yellowMarkerIcon;
+              }
+
+              var lat = tweet.geo.coordinates[0];
+              var lng = tweet.geo.coordinates[1];
+
+
+              var day = tweet.created_at.substring(0, tweet.created_at.indexOf(' '));
+              console.log('day: ' + day);
+
+              fillDayTable(tweet, day, dayTable);
+            });
+
+            console.log('*** done populating tweetsData');
+
+            var tweetsData = google.visualization.arrayToDataTable(dayTable);
+
+            /*
+            var tweetsDataJSON = JSON.stringify(tweetsData);
+            console.log('tweetsDataJSON: ' + tweetsDataJSON);
+            */
+
+            var options = {
+              title: 'Time',
+              hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+              vAxis: {minValue: 0}
+            };
+
+            var chart = new google.visualization.AreaChart(document.getElementById('chart_div_days'));
+            chart.draw(tweetsData, options);
+
+            console.log('mon: ' + mon);
+            console.log('tue: ' + tue);
+            console.log('wed: ' + wed);
+            console.log('thu: ' + thu);
+            console.log('fri: ' + fri);
+            console.log('sat: ' + sat);
+            console.log('sund: ' + sund);
+            console.log('undef: ' + undef);
+          }
+        );
+      }
+
+
+      var mon = 0;
+      var tue = 0;
+      var wed = 0;
+      var thu = 0;
+      var fri = 0;
+      var sat = 0;
+      var sund = 0;
+      var undef = 0;
+
+      function fillDayTable(tweet, day, dayTable) {
+        //console.log('day: ' + day);
+
+        var x;
+        if (day == 'Mon') {
+          x = 0;
+        } else if (day == 'Tue') {
+          x = 1;
+        } else if (day == 'Wed') {
+          x = 2;
+        } else if (day == 'Thu') {
+          x = 3;
+        } else if (day == 'Fri') {
+          x = 4;
+        } else if (day == 'Sat') {
+          x = 5;
+        } else if (day == 'Sun') {
+          x = 6;
+        } else {
+          console.log('*** day not defined');
+        }
+
+        if (x == 0) {
+          mon += 1;
+        } else if (x == 1) {
+          tue += 1;
+        } else if (x == 2) {
+          wed += 1;
+        } else if (x == 3) {
+          thu += 1;
+        } else if (x == 4) {
+          fri += 1;
+        } else if (x == 5) {
+          sat += 1;
+        } else if (x == 6) {
+          sund += 1;
+        } else {
+          undef += 1;
+        }
+
+        //console.log('x: ' + x);
+        //console.log('dayTable: ' + dayTable);
+
+        if (tweet.sentiment_label == 'pos') {
+          dayTable[x + 1][2] += 1;
+        } else if (tweet.sentiment_label == 'neg') {
+          dayTable[x + 1][1] += 1;
+        } else if (tweet.sentiment_label == 'neutral') {
+          dayTable[x + 1][3] += 1;
+        }
+      }
+
+    </script>
+
+
+    </script>
+
+  </head>
+  <body>
+    <div id="chart_div_hours" style="width: 900px; height: 500px;"></div>
+    <div id="chart_div_days" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

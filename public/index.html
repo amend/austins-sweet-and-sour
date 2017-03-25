@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+    </style>
+    <!-- http://stackoverflow.com/questions/2105327/should-jquery-code-go-in-header-or-footer
+        *** if tweets load slowly then put this on bottom ***
+    -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM-WG-4-ho1x_cONpeZlaXDqv2JLd7H6I">
+    </script>
+    <script type="text/javascript">
+
+      function initialize() {
+        var mapOptions = {
+          center: { lat: 30.310835, lng: -97.732981},
+          zoom: 12
+        };
+
+        console.log('in initialize');
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        $.post(
+          //"http://52.41.153.62:4000/gettweets",
+          "http://localhost:4000/gettweets",
+          { name: "Zara" },
+          function(data) {
+            var tweets = JSON.parse(data);
+            tweets = tweets.result;
+
+            tweets.forEach(function(tweet) {
+              var redMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+              var blueMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+              var yellowMarkerIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+
+              var sentiment;
+              if(tweet.sentiment_label == 'neg') {
+                sentiment = redMarkerIcon;
+              } else if (tweet.sentiment_label == 'pos') {
+                sentiment = blueMarkerIcon;
+              } else {
+                sentiment = yellowMarkerIcon;
+              }
+
+              var lat = tweet.geo.coordinates[0];
+              var lng = tweet.geo.coordinates[1];
+
+              var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, lng),
+                map: map,
+                title: tweet.text,
+                icon: sentiment
+              });
+            });
+
+          }
+        );
+
+      }
+
+       google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
