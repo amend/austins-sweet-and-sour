@@ -4,6 +4,8 @@ Personal project in which I overlaid tweets from the Austin area on a map of Aus
 Austin's Sweet and Sour:
 http://52.36.131.248:3000/
 
+Hover over marker to see tweet
+
 The tweets have their sentiment classified through an API I found online (link directly below). For example, if a tweet is "I had a bad day", the sentiment analysis would return "negative", and if a tweet is "I had a great day", the tool would return "positive".
 
 http://text-processing.com/docs/sentiment.html
