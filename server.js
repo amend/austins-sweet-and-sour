@@ -29,5 +29,5 @@ app.post('/gettweets', require('./routes/tweets').getTweets);
 app.get('/graph', require('./routes/graph').init);
 
 
-app.listen(4000);
-console.log('listening on port 4000...');
+app.listen(5000);
+console.log('listening on port 5000...');

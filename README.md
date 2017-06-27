@@ -2,7 +2,7 @@
 Personal project in which I overlaid tweets from the Austin area on a map of Austin. The tweets are categorized by sentiment; happy tweets show up as red, sad tweets show up as blue, and neutral tweets as green.
 
 Austin's Sweet and Sour:
-http://52.36.131.248:3000/
+http://52.41.153.62:5000/
 
 Hover over marker to see tweet
 
