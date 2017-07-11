@@ -21,7 +21,7 @@ app.db.once('open', function () {
     app.post('/gettweets', require('./routes/tweets').getTweets);
 
     app.get('/graph', require('./routes/graph').init);
-    app.get('/graph/stats', require('./routes/graph').getStats);
+    app.post('/graph/stats', require('./routes/graph').stats);
 
     app.listen(5000);
     console.log('listening on port 5000...');

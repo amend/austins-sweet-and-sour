@@ -8,6 +8,12 @@ exports.init = function(req, res) {
   //res.render('/graph/index.html', req);
 };
 
+exports.stats = function(req, res) {
+  console.log('***** in /graph/stats');
+
+  res.send(JSON.stringify(response));
+};
+
 // graphs supported:
 // donut graph showing total amount of neg, pos, or neutral tweets
 // bar graph showing x as day of the week and y as tweet count

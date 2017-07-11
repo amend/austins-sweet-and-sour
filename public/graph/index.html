@@ -2,19 +2,162 @@
 <html>
   <head>
     <style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
-    </style>
-    <!-- http://stackoverflow.com/questions/2105327/should-jquery-code-go-in-header-or-footer
-        *** if tweets load slowly then put this on bottom ***
-    -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script type="text/javascript">
-      
-    </script>
 
+    </style>
   </head>
   <body>
-    <div id="chart_div_hours" style="width: 900px; height: 500px;"></div>
-    <div id="chart_div_days" style="width: 900px; height: 500px;"></div>
+    <canvas id="donutTotal"></canvas>
+    <canvas id="barDay"></canvas>
+    <canvas id="barHour"></canvas>
   </body>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script type="text/javascript">
+
+    var colorRed = '#e74c3c';
+    var colorBlue = '#2980b9';
+    var colorGreen = '#27ae60';
+
+    $.post(
+      "/graph/stats",
+      { name: "Hello World" },
+      function(data) {
+        var stats = JSON.parse(data);
+
+        // donut graph showing total amount of neg, pos, or neutral tweets
+        var dataDonutTotal = {
+          datasets: [{
+              data: [stats.donutTotal.pos, stats.donutTotal.neg, stats.donutTotal.neutral],
+              backgroundColor: [colorRed, colorBlue, colorGreen]
+          }],
+          // These labels appear in the legend and in the tooltips when hovering different arcs
+          labels: [
+              'Postive',
+              'Negative',
+              'Neutral'
+          ]
+        };
+
+        var donutTotal = new Chart(document.getElementById('donutTotal').getContext('2d'), {
+            type: 'doughnut',
+            data: dataDonutTotal,
+            //options: options
+        });
+
+
+
+        // bar graph showing x as day of the week and y as tweet count
+        var dataPosBarDay = {
+          label: 'Positive',
+          data: [stats.barDay.sunday.pos, stats.barDay.monday.pos, stats.barDay.tuesday.pos, stats.barDay.wednesday.pos,
+            stats.barDay.thursday.pos, stats.barDay.friday.pos, stats.barDay.saturday.pos],
+          backgroundColor: colorRed
+        };
+        var dataNegBarDay = {
+          label: 'Negative',
+          data: [stats.barDay.sunday.neg, stats.barDay.monday.neg, stats.barDay.tuesday.neg, stats.barDay.wednesday.neg,
+            stats.barDay.thursday.neg, stats.barDay.friday.neg, stats.barDay.saturday.neg],
+          backgroundColor: colorBlue
+        };
+        var dataNeutralBarDay = {
+          label: 'Neutral',
+          data: [stats.barDay.sunday.neutral, stats.barDay.monday.neutral, stats.barDay.tuesday.neutral, stats.barDay.wednesday.neutral,
+            stats.barDay.thursday.neutral, stats.barDay.friday.neutral, stats.barDay.saturday.neutral],
+          backgroundColor: colorGreen
+        };
+
+        var dataBarDay = {
+          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          datasets: [dataPosBarDay, dataNegBarDay, dataNeutralBarDay]
+        };
+
+        var barDay = new Chart(document.getElementById("barDay").getContext("2d") , {
+          type: 'bar',
+          data: dataBarDay,
+          options: {
+            barValueSpacing: 20,
+            scales: {
+              yAxes: [{
+                ticks: {
+                    min: 0,
+                }
+              }]
+            }
+          }
+        });
+
+        // bar graph showing x as hour of day and y as tweet count
+        var dataPosBarHour= getDataBarhours(stats, 'pos');
+        var dataNegBarHour= getDataBarhours(stats, 'neg');
+        var dataNeutralBarHour= getDataBarhours(stats, 'neutral');
+
+        var l = [];
+        for(var i = 0; i < 24; i++) {
+          var n = i.toString();
+          if(i < 10) {
+            n = '0' + n;
+          }
+          l.push(n);
+        }
+
+        var dataBarHour = {
+          labels: l,
+          datasets: [dataPosBarHour, dataNegBarHour, dataNeutralBarHour]
+        };
+
+        var barHour = new Chart(document.getElementById("barHour").getContext("2d") , {
+          type: 'bar',
+          data: dataBarHour,
+          options: {
+            barValueSpacing: 20,
+            scales: {
+              yAxes: [{
+                ticks: {
+                    min: 0,
+                }
+              }]
+            }
+          }
+        });
+
+      }
+    );
+
+    function getDataBarhours(stats, sentiment) {
+      var label;
+      if(sentiment == 'pos') {
+        label = 'Positive';
+      } else if(sentiment == 'neg') {
+        label = 'Negative';
+      } else {
+        label = 'Neutral';
+      }
+
+      var d = [];
+      for(var i = 0; i < 24; i++) {
+        var n = i.toString();
+        if(i < 10) {
+          n = '0' + n;
+        }
+        d.push(stats.barHour[n][sentiment]);
+      }
+
+      var color;
+      if(sentiment == 'pos') {
+        color = colorRed;
+      } else if(sentiment == 'neg') {
+        color = colorBlue;
+      } else {
+        color = colorGreen;
+      }
+
+      var data = {
+        "label": label,
+        data: d,
+        backgroundColor: color
+      }
+
+      return data;
+    }
+  </script>
 </html>
