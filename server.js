@@ -12,13 +12,7 @@ app.db.once('open', function () {
   //and... we have a data store
 });
 
-console.log('going to set up schemas');
-
 require('./models')(app, mongoose);
-
-console.log('going to set up schemas');
-
-
 
 app.use(express.static(__dirname + '/public'));
 app.engine('.html', require('jade').render);
@@ -27,7 +21,7 @@ app.get('/', require('./routes/index').init);
 app.post('/gettweets', require('./routes/tweets').getTweets);
 
 app.get('/graph', require('./routes/graph').init);
-
+app.get('/graph/stats', require('./routes/graph').getStats);
 
 app.listen(5000);
 console.log('listening on port 5000...');

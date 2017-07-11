@@ -2,7 +2,7 @@
 <html>
   <head>
     <style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+      html, body, #map-canvas { height: 90%; margin: 0; padding: 0;}
     </style>
     <!-- http://stackoverflow.com/questions/2105327/should-jquery-code-go-in-header-or-footer
         *** if tweets load slowly then put this on bottom ***
@@ -24,8 +24,7 @@
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
         $.post(
-          //"http://52.41.153.62:4000/gettweets",
-          "http://localhost:4000/gettweets",
+          "/gettweets",
           { name: "Zara" },
           function(data) {
             var tweets = JSON.parse(data);

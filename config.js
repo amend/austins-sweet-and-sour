@@ -1,5 +1,5 @@
 
 exports.mongodb = {
-  uri: 'mongodb://localhost/tweets/make_austintweets_sentiment_collection',
+  uri: 'mongodb://localhost/tweets/austin_tweets_label_time',
   auto_reconnect: true
 };
