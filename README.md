@@ -20,6 +20,12 @@ http://sentiment.vivekn.com/about/
 
 ![](http://i.imgur.com/PrjFNxy.jpg)
 
-![](http://imgur.com/tLrtXEr)
+![](http://i.imgur.com/yWBIE92.png)
+
+![](http://i.imgur.com/vqoiRGU.png)
+
+![](http://i.imgur.com/SfiP0yQ.png)
+
+![](http://i.imgur.com/tLrtXEr.png)
 
 # austin-tweets-map
