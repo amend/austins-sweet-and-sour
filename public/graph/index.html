@@ -2,13 +2,40 @@
 <html>
   <head>
     <style type="text/css">
-
     </style>
   </head>
   <body>
-    <canvas id="donutTotal"></canvas>
-    <canvas id="barDay"></canvas>
-    <canvas id="barHour"></canvas>
+    <div id="donutTotal_div" style="height:20vh; width:40vw; margin: auto; margin-bottom: 450px">
+      <canvas id="donutTotal"></canvas>
+      <div id="donutTotal_p" style="height:20vh; width:40vw; margin: auto;">
+      </div>
+    </div>
+    <p style="font-family: Helvetica; height:20vh; width:40vw; margin: auto; margin-bottom: 60px">
+      Shows a donut chart of tweets. Red section is positive tweets, blue section is negative tweets,
+      green section is neutral tweets. There's nothing too interesting here except that the ratio tween
+      positive and negative tweets is roughly equal.
+    </p>
+    <div id="barDay_div" style="height:40vh; width:80vw; margin: auto;">
+      <canvas id="barDay"></canvas>
+    </div>
+    <p style="font-family: Helvetica; height:20vh; width:40vw; margin: auto; margin-top: 250px">
+      This is where it gets interesting. During the weekdays, there are more negative tweets than
+      positive tweets, but on the weekends the proportion is reversed. Austin loves their weekends.
+      <br>
+      <br>
+      Sexy Saturday and Sunday Funday indeed.
+    </p>
+    <div id="barHour_div" style="height:40vh; width:80vw; margin: auto; margin-top: 110px">
+      <canvas id="barHour"></canvas>
+    </div>
+    <p style="font-family: Helvetica; height:20vh; width:40vw; margin: auto; margin-top: 250px">
+      The dip in the middle is due to the tool I used collecting less tweets between those times. Not
+      sure why. Twitter peeks during those hours, so maybe those are correlated.
+      <br>
+      <br>
+      What we can learn from this chart is that most tweets during late night are negative and get positive
+      in the afternoon and evening.
+    </p>
   </body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
@@ -38,11 +65,14 @@
           ]
         };
 
-        var donutTotal = new Chart(document.getElementById('donutTotal').getContext('2d'), {
+        var dTotal = document.getElementById('donutTotal').getContext('2d');
+
+        var donutTotal = new Chart(dTotal, {
             type: 'doughnut',
-            data: dataDonutTotal,
-            //options: options
+            data: dataDonutTotal
         });
+
+        dTotal.canvas.parentNode.style.height = '70px';
 
 
 
