@@ -61,10 +61,15 @@
       }
 
        google.maps.event.addDomListener(window, 'load', initialize);
+
+    function goToGraph() {
+       window.location = '/graph';
+     }
     </script>
 
   </head>
   <body>
+    <button type="button" onclick="goToGraph()" style="cursor: pointer; background-color: black; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; font-family: Helvetica">Graphs</button>
     <div id="map-canvas"></div>
   </body>
 </html>

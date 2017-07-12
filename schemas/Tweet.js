@@ -17,5 +17,5 @@ exports = module.exports = function(app, mongoose) {
     }
   });
 
-  app.db.model('Tweet', tweetSchema, 'austin_tweets_label_time');
+  app.db.model('Tweet', tweetSchema, 'make_austintweets_sentiment_collection');
 }

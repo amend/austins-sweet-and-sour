@@ -5,6 +5,7 @@
     </style>
   </head>
   <body>
+    <button type="button" onclick="goToHomePage()" style="cursor: pointer; background-color: black; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; font-family: Helvetica">Map</button>
     <div id="donutTotal_div" style="height:20vh; width:40vw; margin: auto; margin-bottom: 450px">
       <canvas id="donutTotal"></canvas>
       <div id="donutTotal_p" style="height:20vh; width:40vw; margin: auto;">
@@ -189,5 +190,10 @@
 
       return data;
     }
+
+    function goToHomePage()
+  {
+    window.location = '/';
+  }
   </script>
 </html>
