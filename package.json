@@ -24,6 +24,7 @@
     "passport-http": "*",
     "passport-http-bearer": "*",
     "passport-oauth2-client-password": "*",
-    "winston": "*"
+    "winston": "*",
+    "gramophone": "0.0.3"
   }
 }

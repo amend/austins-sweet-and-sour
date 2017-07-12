@@ -1,6 +1,10 @@
 
 var response = {};
 
+var lStats = {};
+
+var gramophone = require('gramophone');
+
 exports.init = function(req, res) {
   console.log('***** in /graph');
 
@@ -157,98 +161,33 @@ function getHourCount(sentiment, date, hour, hourTweetCount) {
   return hourTweetCount;
 }
 
-
-/*
-exports.getStats = function(req, res) {
-  req.app.db.models.TweetComplete.find({}, function(err, tweets) {
+exports.getLangaugeStats = function(app, callback) {
+  console.log('in getLangaugeStats')
+  app.db.models.TweetComplete.find({}, function(err, tweets) {
     if (err) { console.error('error', err.stack); return;}
 
     console.log('tweets length: ' + tweets.length);
-    // stats for pie graph of totals
-    var totalPosCount = 0;
-    var totalNegCount = 0;
-    var totalNeutralCount = 0;
 
-    // stats for bar graph of day
-    var dayTweetCount = {
-      monday: {},
-      tuesday: {},
-      wednesday: {},
-      thursday: {},
-      friday: {},
-      saturday: {},
-      sunday: {}
-    };
-    for(var day in dayTweetCount) {
-      dayTweetCount[day] = {
-        pos: 0,
-        neg: 0,
-        neutral: 0
-      }
-    }
-    //console.log('dayTweetCount: ' + JSON.stringify(dayTweetCount));
-
-    // stats for bar graph of hour
-    var hourTweetCount = {};
-    for(var i = 0; i < 24; i++) {
-      var s = i;
-      if(s < 10) {
-        s = '0' + s.toString();
-      }
-      hourTweetCount[s] = {};
-    }
-    for(var hour in hourTweetCount) {
-      hourTweetCount[hour] = {
-        pos: 0,
-        neg: 0,
-        neutral: 0
-      };
-    }
-
-    //console.log('hourTweetCount: ' + JSON.stringify(hourTweetCount));
-    //console.log('*** before forEach');
+    var gS = '';
+    var hashTable = {};
     tweets.forEach(function(tweet) {
-      var created_at =  tweet.created_at.split(" ");
-      var day = created_at[0];
-      var date = Number(created_at[2]);
-      var hourTime = created_at[3].split(":")[0];
-      //console.log('created_at: 3 ' + created_at[3]);
-      //console.log('created_at: 3 ' + created_at[3].split(":")[0]);
+      if(!(tweet.text in hashTable)) {
 
-      //console.log('date: ' + date);
-      //console.log('tweet sentiment: ' + tweet.sentiment);
-
-      if(tweet.sentiment == 'Positive') {
-        totalPosCount++;
-        dayTweetCount = getDayCount('pos', date, day, dayTweetCount);
-        hourTweetCount = getHourCount('pos', date, hourTime, hourTweetCount);
-      } else if(tweet.sentiment == 'Negative') {
-        totalNegCount++;
-        dayTweetCount = getDayCount('neg', date, day, dayTweetCount);
-        hourTweetCount = getHourCount('neg', date, hourTime, hourTweetCount);
-      } else if(tweet.sentiment == 'Neutral') {
-        totalNeutralCount++;
-        dayTweetCount = getDayCount('neutral', date, day, dayTweetCount);
-        hourTweetCount = getHourCount('neutral', date, hourTime, hourTweetCount);
+        gS += tweet.text + ' ';
+        hashTable[tweet.text] = 'who dis';
       } else {
-        console.log("*** tweet inspection yeiled not pos, neg, or neutral");
+        // console.log('tweet already in hashTable: ' + tweet.text);
       }
-      //console.log('*** forEach unit end');
     });
+    console.log('gS length: ' + gS.length);
 
-    //console.log('*** after for each');
-    var response = {
-      donutTotal: {
-        pos: totalPosCount,
-        neg: totalNegCount,
-        neutral: totalNeutralCount
-      },
-      barDay: dayTweetCount,
-      barHour: hourTweetCount
-    };
+    console.log('extracing most common words');
+    var mostCommon = gramophone.extract(gS, {stopWords: ['http t', 's', 'm', 'amp',
+      'tx https t', 'austin tx https', 'tx http t', 'austin tx http', 'austin tx', 'texas'
+    ], limit: 70});
+    console.log('done extracting most common words: ' + mostCommon);
 
-    res.send(JSON.stringify(response));
-    console.log('tweets sent');
+    console.log('exiting getLangaugeStats');
+    callback(lStats)
   });
 };
-*/

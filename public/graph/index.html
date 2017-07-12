@@ -6,6 +6,25 @@
   </head>
   <body>
     <button type="button" onclick="goToHomePage()" style="cursor: pointer; background-color: black; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; font-family: Helvetica">Map</button>
+    <p style="font-family: Helvetica; height:20vh; width:40vw; margin: auto; margin-bottom: 140px">
+      These are four charts containing statistics about tweets from the Austin area.
+      <br>
+      <br>
+      The charts discuss a sentiment analysis of the tweets and when the tweets were sent. Red means the tweet was
+      catagorized as positive (for example: What a great day), blue as negative, and green as neutral.
+      <br>
+      <br>
+      The last chart the 50 most common words used in the tweets.
+      <br>
+      <br>
+      The tweets were collected using twitters api and classifed with Sentiment Tool:
+      <br>
+      http://sentiment.vivekn.com/about/
+      <br>
+      <br>
+      <br>
+      <br>
+    </p>
     <div id="donutTotal_div" style="height:20vh; width:40vw; margin: auto; margin-bottom: 450px">
       <canvas id="donutTotal"></canvas>
       <div id="donutTotal_p" style="height:20vh; width:40vw; margin: auto;">
@@ -13,13 +32,16 @@
     </div>
     <p style="font-family: Helvetica; height:20vh; width:40vw; margin: auto; margin-bottom: 60px">
       Shows a donut chart of tweets. Red section is positive tweets, blue section is negative tweets,
-      green section is neutral tweets. There's nothing too interesting here except that the ratio tween
+      green section is neutral tweets. There's nothing too interesting in this chart except that the ratio tween
       positive and negative tweets is roughly equal.
     </p>
     <div id="barDay_div" style="height:40vh; width:80vw; margin: auto;">
       <canvas id="barDay"></canvas>
     </div>
     <p style="font-family: Helvetica; height:20vh; width:40vw; margin: auto; margin-top: 250px">
+      Day of the Week vs Tweet amount
+      <br>
+      <br>
       This is where it gets interesting. During the weekdays, there are more negative tweets than
       positive tweets, but on the weekends the proportion is reversed. Austin loves their weekends.
       <br>
@@ -30,6 +52,9 @@
       <canvas id="barHour"></canvas>
     </div>
     <p style="font-family: Helvetica; height:20vh; width:40vw; margin: auto; margin-top: 250px">
+      Hour of the day vs Tweet amount
+      <br>
+      <br>
       The dip in the middle is due to the tool I used collecting less tweets between those times. Not
       sure why. Twitter peeks during those hours, so maybe those are correlated.
       <br>
@@ -37,6 +62,78 @@
       What we can learn from this chart is that most tweets during late night are negative and get positive
       in the afternoon and evening.
     </p>
+    <center>
+      <h3 style="margin: auto; font-family: Helvetica; margin-top: 75px">Most Common Words</h3>
+    </center>
+    <br>
+    <table style="width:60%; margin: auto; font-family: Helvetica; margin-bottom: 50px;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <td>austin tx</td>
+        <td>job</td>
+        <td>love</td>
+        <td>don't</td>
+        <td>day</td>
+        <td>good</td>
+        <td>time</td>
+        <td>lol</td>
+        <td>today</td>
+        <td>great</td>
+      </tr>
+      <tr>
+        <td>people</td>
+        <td>night</td>
+        <td>tonight</td>
+        <td>back</td>
+        <td>life</td>
+        <td>happy</td>
+        <td>make</td>
+        <td>game</td>
+        <td>cold</td>
+        <td>work</td>
+      </tr>
+      <tr>
+        <td>home</td>
+        <td>shit</td>
+        <td>school</td>
+        <td>man</td>
+        <td>watch</td>
+        <td>auditorium shores</td>
+        <td>big</td>
+        <td>girl</td>
+        <td>give</td>
+        <td>birthday</td>
+      </tr>
+      <tr>
+        <td>follow</td>
+        <td>awesome</td>
+        <td>park</td>
+        <td>live</td>
+        <td>year</td>
+        <td>amazing</td>
+        <td>fuck</td>
+        <td>gonna</td>
+        <td>show</td>
+        <td>morning</td>
+      </tr>
+      <tr>
+        <td>feel</td>
+        <td>friends</td>
+        <td>stop</td>
+        <td>food</td>
+        <td>music</td>
+        <td>fucking</td>
+        <td>weekend</td>
+        <td>bar</td>
+        <td>ready</td>
+        <td>class</td>
+      </tr>
+  </table>
+
   </body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
