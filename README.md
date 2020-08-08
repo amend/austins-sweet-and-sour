@@ -1,8 +1,8 @@
 
-Personal project in which I overlaid tweets from the Austin area on a map of Austin. The tweets are categorized by sentiment; happy tweets show up as red, sad tweets show up as blue, and neutral tweets as green.
+Personal project who's purpose is to identify the happiest and saddest spots in Austin. I overlaid tweets from the Austin area on a map of Austin. The tweets are categorized by sentiment: happy tweets show up as red, sad tweets show up as blue, and neutral tweets as green.
 
 Update: I have added functionality so that there are four charts containing statistics about tweets from the Austin area.
-The charts discuss a sentiment analysis of the tweets and when the tweets were sent. Red means the tweet was catagorized as positive (for example: What a great day), blue as negative, and green as neutral. The last chart contains the 50 most common words used in the tweets.
+The charts discuss a sentiment analysis of the tweets and their goal is to illustrate which time or day is the happiest or saddest in Austin. Red means the tweet was categorized as positive (for example: What a great day), blue as negative, and green as neutral. The last chart contains the 50 most common words used in the tweets.
 
 Austin's Sweet and Sour:
 
