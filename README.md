@@ -28,5 +28,3 @@ http://sentiment.vivekn.com/about/
 ![](http://i.imgur.com/SfiP0yQ.png)
 
 ![](http://i.imgur.com/tLrtXEr.png)
-
-# austin-tweets-map
