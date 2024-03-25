@@ -13,7 +13,7 @@
     "Faker": "*",
     "async": "*",
     "config.json": "*",
-    "express": "3.2.3",
+    "express": "4.19.2",
     "jade": "*",
     "mongodb": ">=0.9.6-7",
     "mongoose": ">=3.6",
